@@ -16,6 +16,16 @@
     box-sizing: border-box;
   }
 
+  /* Pin the sheet to the page's top-left corner and hide on-screen-only
+     controls, so this still prints at the right size and on one page
+     even if the printer dialog is stuck on a paper size other than
+     100x210mm (e.g. A4). */
+  @media print {
+    html, body { width: 100mm; height: 210mm; overflow: hidden; }
+    #hoja { position: absolute; top: 0; left: 0; }
+    #instrucciones, button { display: none !important; }
+  }
+
   .v, .h { position: absolute; }
   .v { top: 0; height: 210mm; width: 0; border-left: 0.1mm solid #bbb; }
   .h { left: 0; width: 100mm; height: 0; border-top: 0.1mm solid #bbb; }
