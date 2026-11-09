@@ -152,6 +152,13 @@ function limpiarVariables(){
   if(p) p.focus();
 }
 
+function nudge(id, delta){
+  var n = parseFloat(val(id));
+  if(isNaN(n)) n = 0;
+  setVal(id, (n + delta).toFixed(1));
+  pintar();
+}
+
 function restablecerCalibracion(){
   setVal('ox', String(CAL_DEF.ox));
   setVal('oy', String(CAL_DEF.oy));
