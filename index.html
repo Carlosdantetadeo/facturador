@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Letra de Cambio &mdash; 100 x 210 mm</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== FORMULARIO ===================== -->
+  <div class="panel">
+    <div class="acciones">
+      <h1>Letra de Cambio</h1>
+      <p class="sub">Formato 100 &times; 210 mm &middot; Epson L5590 &middot; alimentaci&oacute;n posterior</p>
+
+      <button type="button" class="pri" onclick="imprimirLetra()">Imprimir</button>
+      <button type="button" class="sec" onclick="limpiarVariables()">Letra nueva</button>
+
+      <p class="receta">
+        En Chrome: destino <strong>EPSON L5590</strong> &middot; papel <strong>Letra 100x210</strong>
+        &middot; escala <strong>100 %</strong> (nunca ajustar)
+        &middot; m&aacute;rgenes <strong>Ninguno</strong>
+        &middot; encabezados y pies <strong>desactivados</strong>
+        &middot; origen <strong>alimentaci&oacute;n posterior</strong>.
+        El recibo entra con &ldquo;Cl&aacute;usulas Especiales&rdquo; al final.
+      </p>
+
+      <p class="aviso" id="aviso"></p>
+
+      <div class="chk">
+        <input type="checkbox" id="guias">
+        <label for="guias">Mostrar gu&iacute;as (solo para calibrar; no se imprimen)</label>
+      </div>
+
+      <div class="cal">
+        <span class="cal-lbl">Offset largo</span>
+        <input type="number" step="0.1" id="ox" value="3.9">
+        <span class="cal-lbl">Offset ancho</span>
+        <input type="number" step="0.1" id="oy" value="4.95">
+        <span class="ok" id="calok"></span>
+        <button type="button" class="sec mini" onclick="restablecerCalibracion()">Restablecer</button>
+        <button type="button" class="sec mini" onclick="copiarCalibracion()">Copiar calibraci&oacute;n</button>
+      </div>
+    </div>
+
+    <h2>Cabecera</h2>
+    <div class="row">
+      <div><label for="numero">N&uacute;mero</label><input id="numero" placeholder="001" autocomplete="off"></div>
+      <div><label for="ref">Ref. del girador</label><input id="ref" autocomplete="off"></div>
+    </div>
+    <label for="lugar">Lugar de giro</label>
+    <input id="lugar" value="LIMA">
+    <div class="row">
+      <div><label for="fgiro">Fecha de giro</label><input id="fgiro" type="date"></div>
+      <div><label for="fvenc">Vencimiento</label><input id="fvenc" type="date"></div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="moneda">Moneda</label>
+        <select id="moneda">
+          <option value="PEN">S/ (Soles)</option>
+          <option value="USD">US$ (D&oacute;lares)</option>
+        </select>
+      </div>
+      <div>
+        <label for="importe">Importe</label>
+        <input id="importe" placeholder="1250.50" inputmode="decimal" autocomplete="off">
+      </div>
+    </div>
+    <p class="letrasvivo" id="letrasvivo"></p>
+
+    <h2>Beneficiario (a la orden de)</h2>
+    <input id="orden1" placeholder="Nombre o raz&oacute;n social del tenedor" autocomplete="organization">
+    <label for="orden2">Continuaci&oacute;n (si no entra en una l&iacute;nea)</label>
+    <input id="orden2">
+
+    <h2>Girado (quien debe pagar)</h2>
+    <label for="gdo_nom">Nombre / raz&oacute;n social</label><input id="gdo_nom">
+    <label for="gdo_nom2">Continuaci&oacute;n</label><input id="gdo_nom2">
+    <label for="gdo_dom">Domicilio</label><input id="gdo_dom">
+    <div class="row">
+      <div><label for="gdo_doi">D.O.I.</label><input id="gdo_doi" autocomplete="off"></div>
+      <div><label for="gdo_tel">Tel.</label><input id="gdo_tel" autocomplete="off"></div>
+    </div>
+
+    <h2>Aval permanente (opcional)</h2>
+    <label for="av_nom">Nombre</label><input id="av_nom">
+    <label for="av_dom">Domicilio</label><input id="av_dom">
+    <div class="row">
+      <div><label for="av_doi">D.O.I.</label><input id="av_doi" autocomplete="off"></div>
+      <div><label for="av_tel">Tel.</label><input id="av_tel" autocomplete="off"></div>
+    </div>
+    <label for="av_rep">Nombre del representante</label><input id="av_rep">
+
+    <h2>Cuenta a debitar (opcional)</h2>
+    <div class="row">
+      <div><label for="bco">Banco</label><input id="bco"></div>
+      <div><label for="ofi">Oficina</label><input id="ofi"></div>
+    </div>
+    <div class="row">
+      <div><label for="cta">N&uacute;mero de cuenta</label><input id="cta" autocomplete="off"></div>
+      <div class="dc"><label for="dc">D.C</label><input id="dc" autocomplete="off"></div>
+    </div>
+
+    <h2>Girador (quien emite) &mdash; datos fijos</h2>
+    <label for="gdr_nom">Nombre / raz&oacute;n social</label><input id="gdr_nom">
+    <label for="gdr_nom2">Continuaci&oacute;n</label><input id="gdr_nom2">
+    <label for="gdr_doi">D.O.I. / RUC</label><input id="gdr_doi" autocomplete="off">
+
+    <div class="chk">
+      <input type="checkbox" id="recordar" checked>
+      <label for="recordar">Recordar datos fijos y calibraci&oacute;n en esta PC</label>
+    </div>
+
+    <p class="nota">
+      La casilla TEL. del formato preimpreso mide 7 mm. Si el tel&eacute;fono no entra legible,
+      d&eacute;jalo en blanco: no es requisito del art. 119 de la Ley de T&iacute;tulos Valores.
+      Las firmas y la aceptaci&oacute;n van siempre a mano.
+    </p>
+  </div>
+
+  <!-- ===================== VISTA PREVIA ===================== -->
+  <div class="vista">
+    <p>Vista previa a escala real (100 &times; 210 mm). Lo que ves aqu&iacute; es lo que se imprime.</p>
+    <div class="hoja" id="hoja">
+      <div class="lienzo">
+        <div class="marco" id="marco"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/campos.js"></script>
+<script src="js/importe-letras.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

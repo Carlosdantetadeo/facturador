@@ -1,0 +1,141 @@
+/* ============================================================
+   Letra de Cambio - formato 100 x 210 mm
+   Impresion sobre formato preimpreso (Epson L5590, bandeja posterior)
+
+   CALIBRACION: los dos unicos valores que se tocan son --ox y --oy.
+   Se pueden cambiar desde la interfaz y quedan guardados en el navegador.
+   ============================================================ */
+
+:root{
+  /* Defaults; app.js overwrites these from CAL_DEF / the offset inputs. */
+  --ox: 3.9mm;   /* along the 210 mm axis */
+  --oy: 4.95mm;  /* along the 100 mm axis */
+
+  --tinta:#000;
+  --fuente:"Arial","Helvetica",sans-serif;
+
+  /* medidas reales del marco preimpreso, tomadas del escaneo a 300 dpi */
+  --marco-largo: 202.2mm;
+  --marco-ancho: 90.1mm;
+}
+
+@page{ size:100mm 210mm; margin:0; }
+html,body{margin:0;padding:0;}
+
+/* ------------------------------------------------------------
+   La hoja fisica: 100 mm de ancho x 210 mm de alto.
+   El recibo entra a la impresora por el lado corto (100 mm),
+   con el extremo de "Clausulas Especiales" al final.
+   ------------------------------------------------------------ */
+.hoja{
+  position:relative;
+  width:100mm; height:210mm;
+  overflow:hidden;
+  background:#fff;
+}
+
+/* ------------------------------------------------------------
+   El lienzo se dibuja en orientacion natural de lectura
+   (210 mm de ancho x 100 mm de alto) y luego se gira -90 grados
+   para caer sobre la hoja. Asi las coordenadas de los campos
+   se escriben como se leen en el formato.
+   ------------------------------------------------------------ */
+.lienzo{
+  position:absolute;
+  width:210mm; height:100mm;
+  top:0; left:0;
+  transform-origin:0 0;
+  transform:translate(0,210mm) rotate(-90deg);
+}
+
+/* El marco preimpreso dentro de la hoja */
+.marco{
+  position:absolute;
+  left:var(--ox); top:var(--oy);
+  width:var(--marco-largo); height:var(--marco-ancho);
+}
+
+/* Cada campo impreso */
+.c{
+  position:absolute;
+  font-family:var(--fuente);
+  font-size:2.5mm;
+  line-height:3.2mm;
+  color:var(--tinta);
+  white-space:nowrap;
+  overflow:hidden;
+  box-sizing:border-box;
+  display:flex;
+  align-items:flex-end;
+}
+.c.ctr{justify-content:center;}
+.c.sm{font-size:2.1mm;}
+.c.bg{font-size:2.9mm;}
+
+/* Guias de calibracion */
+.guias .c{outline:0.2mm dashed #d00;}
+.guias .marco{outline:0.3mm solid #06c;}
+
+/* ============================ PANTALLA ============================ */
+@media screen{
+  body{background:#eceff1;font-family:var(--fuente);padding:18px;}
+  .app{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:420px 1fr;gap:22px;align-items:start;}
+  .panel{background:#fff;padding:18px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+  h1{font-size:17px;margin:0 0 4px;}
+  .sub{font-size:12px;color:#546e7a;margin:0 0 14px;}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:#37474f;margin:16px 0 6px;border-bottom:1px solid #cfd8dc;padding-bottom:3px;}
+  label{display:block;font-size:11px;color:#455a64;margin:7px 0 2px;}
+  input,select,textarea{width:100%;box-sizing:border-box;padding:5px 7px;font-size:13px;border:1px solid #b0bec5;border-radius:4px;font-family:inherit;}
+  .row{display:flex;gap:8px;}
+  .row>div{flex:1;}
+  .acciones{position:sticky;top:0;background:#fff;padding-bottom:10px;z-index:5;}
+  button{padding:9px 14px;font-size:13px;border:0;border-radius:5px;cursor:pointer;margin-right:6px;}
+  .pri{background:#00695c;color:#fff;}
+  .sec{background:#cfd8dc;color:#263238;}
+  .chk{font-size:12px;color:#455a64;margin-top:8px;display:flex;align-items:center;gap:6px;}
+  .chk input{width:auto;}
+  .chk label{margin:0;}
+  .cal{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap;}
+  .cal input{width:70px;}
+  .cal-lbl{font-size:11px;color:#455a64;}
+  .mini{padding:4px 8px;font-size:11px;}
+  .dc{flex:0 0 70px;}
+  .vista{background:#fff;padding:14px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.15);overflow:auto;}
+  .vista p{font-size:11px;color:#78909c;margin:0 0 8px;}
+  .hoja{outline:1px solid #b0bec5;}
+  .nota{font-size:11px;color:#b71c1c;margin-top:10px;line-height:1.5;}
+  .ok{font-size:11px;color:#00695c;}
+  .receta{font-size:11px;color:#37474f;line-height:1.45;margin:10px 0 6px;padding:8px;background:#eceff1;border-radius:4px;}
+  .aviso{font-size:12px;min-height:1.2em;margin:4px 0 0;line-height:1.4;}
+  .aviso.warn{color:#b71c1c;}
+  .aviso.ok{color:#00695c;}
+  .letrasvivo{font-size:11px;color:#004d40;margin:6px 0 0;line-height:1.4;min-height:2.8em;}
+}
+
+/* ============================ IMPRESION ============================ */
+@media print{
+  html,body{
+    width:100mm; height:210mm;
+    margin:0; padding:0;
+    background:#fff;
+    overflow:hidden;
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
+  .panel,.vista p,.nota,.receta,.aviso,.letrasvivo{display:none !important;}
+  .app,.vista{
+    display:block;
+    max-width:none;
+    width:100mm; height:210mm;
+    margin:0; padding:0;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:none;
+    border-radius:0;
+  }
+  .hoja{
+    outline:none;
+    position:absolute;
+    top:0; left:0;
+  }
+}
