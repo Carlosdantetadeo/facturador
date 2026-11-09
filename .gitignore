@@ -1,3 +1,10 @@
 .DS_Store
 Thumbs.db
 .claude/settings.local.json
+
+# Fotos de prueba de calibración/impresión, no son parte del sitio
+/*.jpg
+/*.jpeg
+/*.JPG
+/*.JPEG
+/*.png
