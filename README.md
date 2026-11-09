@@ -34,6 +34,12 @@ En el diálogo de Chrome:
 | Márgenes | Ninguno |
 | Origen del papel | Alimentación posterior |
 | Calidad | Estándar, papel normal |
+| Encabezados y pies | **Desactivado** (en "Más opciones") |
+
+Si "Encabezados y pies" queda activado, Chrome imprime el título de la pestaña arriba de
+la hoja y la URL abajo, y para hacerles espacio corre y achica todo el contenido real. Si
+la impresión sale con un espacio en blanco arriba o corrida de su sitio, revisa esto antes
+que la calibración (`--ox`/`--oy`).
 
 **El recibo entra con el lado de "Cláusulas Especiales" al final.** La L5590 no imprime
 los últimos ~14 mm del borde de salida, y ese extremo es el único que no lleva datos.
