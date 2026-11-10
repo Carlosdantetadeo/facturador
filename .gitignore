@@ -8,3 +8,6 @@ Thumbs.db
 /*.JPG
 /*.JPEG
 /*.png
+
+.vercel
+.env*
