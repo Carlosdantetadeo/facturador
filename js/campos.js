@@ -47,12 +47,14 @@ var CAMPOS = [
 
   /* --- "...a la Orden de": linea punteada a y=17.3,
          el texto impreso del formato termina en x≈128.
-         h reducido de 3.2 a 2.6 el 2026-11-10: con solo 3.2 el texto
-         quedaba pegado a la linea en la impresion real. --- */
-  {id:'orden1',   x:129.0, y:13.9, w:63.5,  h:2.6},
+         cls 'compacto' el 2026-11-10: achica el line-height (no solo
+         el recuadro de la guia) para que el texto suba de verdad,
+         despues de que el primer intento (solo bajar h) no se notara
+         en la impresion real. --- */
+  {id:'orden1',   x:129.0, y:13.9, w:63.5,  h:2.4, cls:'compacto'},
   /* --- segunda linea punteada a y=22.7, termina antes de
          "La cantidad de" que empieza en x≈162 --- */
-  {id:'orden2',   x:35.0,  y:19.3, w:125.0, h:2.6},
+  {id:'orden2',   x:35.0,  y:19.3, w:125.0, h:2.4, cls:'compacto'},
 
   /* --- Caja del importe en letras: y 23.7 a 32.8.
          cls 'ctr' agregado el 2026-11-10 para centrar el texto en el
@@ -66,11 +68,11 @@ var CAMPOS = [
          57.1 DOI-TEL / 62.5 Aval / 68.5 Domicilio aval /
          73.3 DOI-TEL aval / 78.2 Firma (manual) /
          82.5 Nombre del Representante --- */
-  {id:'gdo_nom',  x:50.0,  y:39.0, w:58.0,  h:2.6},
-  {id:'gdo_nom2', x:35.0,  y:44.0, w:73.0,  h:2.6},
-  {id:'gdo_dom',  x:50.0,  y:48.9, w:58.0,  h:2.6},
-  {id:'gdo_doi',  x:46.0,  y:53.8, w:46.0,  h:2.6},
-  {id:'gdo_tel',  x:103.5, y:53.8, w:7.3,   h:2.6, cls:'sm'},
+  {id:'gdo_nom',  x:50.0,  y:39.0, w:58.0,  h:2.4, cls:'compacto'},
+  {id:'gdo_nom2', x:35.0,  y:44.0, w:73.0,  h:2.4, cls:'compacto'},
+  {id:'gdo_dom',  x:50.0,  y:48.9, w:58.0,  h:2.4, cls:'compacto'},
+  {id:'gdo_doi',  x:46.0,  y:53.8, w:46.0,  h:2.4, cls:'compacto'},
+  {id:'gdo_tel',  x:103.5, y:53.8, w:7.3,   h:2.4, cls:'sm compacto'},
 
   {id:'av_nom',   x:57.0,  y:59.3, w:51.0,  h:3.2},
   {id:'av_dom',   x:50.0,  y:65.2, w:58.0,  h:3.2},
@@ -89,11 +91,13 @@ var CAMPOS = [
          "Nombre / Denominado o" (y 58.5),
          "Razon Social del Girador" (y 62.5),
          "D.O.I." (y 66.5).
-         y bajado +1.5mm el 2026-11-10: el texto quedaba encima de la
-         celda "Numero de cuenta" de la tabla del banco. --- */
-  {id:'gdr_nom',  x:143.0, y:57.0, w:49.0,  h:3.2, cls:'sm'},
-  {id:'gdr_nom2', x:143.0, y:61.0, w:49.0,  h:3.2, cls:'sm'},
-  {id:'gdr_doi',  x:122.0, y:65.0, w:70.0,  h:3.2, cls:'sm'}
+         y bajado +1.5mm el 2026-11-10 (55.5->57.0): el texto quedaba
+         encima de la celda "Numero de cuenta" del banco. Esa primera
+         correccion no fue suficiente en la impresion real, bajado
+         +2mm mas (57.0->59.0) el mismo dia. --- */
+  {id:'gdr_nom',  x:143.0, y:59.0, w:49.0,  h:3.2, cls:'sm'},
+  {id:'gdr_nom2', x:143.0, y:63.0, w:49.0,  h:3.2, cls:'sm'},
+  {id:'gdr_doi',  x:122.0, y:67.0, w:70.0,  h:3.2, cls:'sm'}
 ];
 
 /* Campos que se conservan entre letras (datos propios + calibracion) */

@@ -74,6 +74,11 @@ html,body{margin:0;padding:0;}
 .c.ctr{justify-content:center;}
 .c.sm{font-size:2.1mm;}
 .c.bg{font-size:2.9mm;}
+/* Shrinks the line box itself (not just the guide rectangle) so text
+   sits higher, clear of the printed line below it. Must be paired
+   with a matching smaller h in campos.js, or the box and the text's
+   real anchor point stop matching and the fix is invisible again. */
+.c.compacto{line-height:2.4mm;}
 
 /* Guias de calibracion */
 .guias .c{outline:0.2mm dashed #d00;}
