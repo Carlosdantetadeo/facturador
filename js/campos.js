@@ -17,14 +17,21 @@
    escriben a mano: los produce derivados() en app.js.
    ============================================================ */
 
-/* Default paper-to-frame offset, from the 300 dpi scan (estimated).
-   ox was bumped to 30.6 on 2026-11-09 as a blind workaround while the
-   printer was stuck on the generic Microsoft IPP Class Driver with no
-   100x210mm paper size available. Reverted back to 3.9 now that the
-   real Epson driver is installed — that bump was never a real
-   calibration, just a guess for a broken paper-size setup. Needs a
-   fresh blank-paper test with the correct paper size selected. */
-var CAL_DEF = { ox: 3.9, oy: 4.95 };
+/* Default paper-to-frame offset, from the 300 dpi scan (estimated). */
+var CAL_DEF = { ox: 0, oy: 4.95 };
+
+/* TEMPORARY A4 WORKAROUND (2026-11-10): the printer is still printing
+   100x210mm jobs onto a paper size of A4 (210x297mm) because no true
+   100x210mm paper size is set up, and the printer's own length
+   handling pushes content down by tens of mm to compensate. BASE_OX
+   shifts the real offset so the "Offset largo" field can work from a
+   human-friendly 0 instead of a large negative number, and css/estilos.css
+   grows the print area so content isn't clipped by our own 210mm
+   safety box while shifted this far.
+   REMOVE this (set back to 0) once the printer has a real 100x210mm
+   paper size and prints onto it directly — at that point this offset
+   is not a calibration value, it's compensating for a broken setup. */
+var BASE_OX = -60;
 
 var CAMPOS = [
 

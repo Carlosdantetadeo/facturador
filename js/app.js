@@ -86,7 +86,7 @@ function pintar(){
   if(isNaN(ox)) ox = CAL_DEF.ox;
   if(isNaN(oy)) oy = CAL_DEF.oy;
 
-  document.documentElement.style.setProperty('--ox', ox + 'mm');
+  document.documentElement.style.setProperty('--ox', (BASE_OX + ox) + 'mm');
   document.documentElement.style.setProperty('--oy', oy + 'mm');
   hoja.classList.toggle('guias', document.getElementById('guias').checked);
 

@@ -19,7 +19,10 @@
   --marco-ancho: 90.1mm;
 }
 
-@page{ size:100mm 210mm; margin:0; }
+/* 320mm tall instead of 210mm while the A4 workaround (BASE_OX) is
+   active — see the @media print block below. Put back to 100mm 210mm
+   once BASE_OX is removed. */
+@page{ size:100mm 320mm; margin:0; }
 html,body{margin:0;padding:0;}
 
 /* ------------------------------------------------------------
@@ -125,8 +128,14 @@ html,body{margin:0;padding:0;}
 
 /* ============================ IMPRESION ============================ */
 @media print{
+  /* Height bumped from 210mm to 320mm as part of the TEMPORARY A4
+     workaround (see BASE_OX in js/campos.js): with the printer stuck
+     on A4 (297mm long) instead of a real 100x210mm paper size, the
+     content has to be pushed tens of mm down the page to land in the
+     right place, and 210mm isn't tall enough to hold it without
+     clipping. Put this back to 210mm once BASE_OX is removed. */
   html,body{
-    width:100mm; height:210mm;
+    width:100mm; height:320mm;
     margin:0; padding:0;
     background:#fff;
     overflow:hidden;
@@ -137,7 +146,7 @@ html,body{margin:0;padding:0;}
   .app,.vista{
     display:block;
     max-width:none;
-    width:100mm; height:210mm;
+    width:100mm; height:320mm;
     margin:0; padding:0;
     overflow:hidden;
     background:#fff;
@@ -148,5 +157,6 @@ html,body{margin:0;padding:0;}
     outline:none;
     position:absolute;
     top:0; left:0;
+    height:320mm;
   }
 }
