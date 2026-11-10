@@ -58,6 +58,20 @@
       </p>
     </div>
 
+    <div class="lote">
+      <h2>Imprimir en lote (CSV)</h2>
+      <button type="button" class="sec mini" onclick="descargarPlantillaCSV()">Descargar plantilla CSV</button>
+      <label for="csvFile">Cargar CSV</label>
+      <input type="file" id="csvFile" accept=".csv">
+      <p class="loteInfo" id="loteInfo"></p>
+      <div class="loteNav" id="loteNav" style="display:none">
+        <button type="button" class="sec mini" onclick="loteAnterior()">&larr; Anterior</button>
+        <span id="loteContador"></span>
+        <button type="button" class="sec mini" onclick="loteSiguiente()">Siguiente &rarr;</button>
+        <button type="button" class="sec mini" onclick="salirLote()">Salir del lote</button>
+      </div>
+    </div>
+
     <h2>Cabecera</h2>
     <div class="row">
       <div><label for="numero">N&uacute;mero <span class="req">*</span></label><input id="numero" placeholder="001" autocomplete="off"></div>

@@ -6,6 +6,8 @@
 var CLAVE_ALMACEN = 'letra_fijos';
 var marco, hoja;
 var guiasAntesDeImprimir = false;
+var loteFilas = [];
+var loteIndice = -1;
 
 function val(id){
   var e = document.getElementById(id);
@@ -217,6 +219,98 @@ function mostrarAviso(msg, tipo){
   el.className = 'aviso' + (tipo ? ' ' + tipo : '');
 }
 
+/* Minimal CSV parser: comma-separated, double-quoted fields with "" escapes. */
+function parseLineaCSV(linea){
+  var out = [];
+  var cur = '';
+  var enComillas = false;
+  for(var i = 0; i < linea.length; i++){
+    var c = linea.charAt(i);
+    if(enComillas){
+      if(c === '"'){
+        if(linea.charAt(i + 1) === '"'){ cur += '"'; i++; }
+        else enComillas = false;
+      }else cur += c;
+    }else{
+      if(c === '"') enComillas = true;
+      else if(c === ','){ out.push(cur); cur = ''; }
+      else cur += c;
+    }
+  }
+  out.push(cur);
+  return out;
+}
+
+function parseCSV(texto){
+  var lineas = texto.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n')
+    .filter(function(l){ return l.trim() !== ''; });
+  if(!lineas.length) return [];
+  var encabezados = parseLineaCSV(lineas[0]).map(function(h){ return h.trim(); });
+  var filas = [];
+  for(var i = 1; i < lineas.length; i++){
+    var valores = parseLineaCSV(lineas[i]);
+    var fila = {};
+    encabezados.forEach(function(h, idx){ fila[h] = valores[idx] !== undefined ? valores[idx] : ''; });
+    filas.push(fila);
+  }
+  return filas;
+}
+
+function descargarPlantillaCSV(){
+  var encabezados = CAMPOS_VARIABLES.join(',');
+  var blob = new Blob([encabezados + '\n'], {type: 'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'plantilla_letras.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function actualizarLoteUI(){
+  var nav = document.getElementById('loteNav');
+  var contador = document.getElementById('loteContador');
+  if(!nav || !contador) return;
+  if(!loteFilas.length){
+    nav.style.display = 'none';
+    return;
+  }
+  nav.style.display = '';
+  contador.textContent = 'Letra ' + (loteIndice + 1) + ' de ' + loteFilas.length;
+}
+
+function cargarFilaLote(i){
+  if(i < 0 || i >= loteFilas.length) return;
+  loteIndice = i;
+  var fila = loteFilas[i];
+  CAMPOS_VARIABLES.forEach(function(campo){
+    setVal(campo, Object.prototype.hasOwnProperty.call(fila, campo) ? fila[campo] : '');
+  });
+  intentoImprimir = false;
+  pintar();
+  actualizarLoteUI();
+}
+
+function loteSiguiente(){
+  if(loteIndice + 1 < loteFilas.length) cargarFilaLote(loteIndice + 1);
+}
+
+function loteAnterior(){
+  if(loteIndice - 1 >= 0) cargarFilaLote(loteIndice - 1);
+}
+
+function salirLote(){
+  loteFilas = [];
+  loteIndice = -1;
+  actualizarLoteUI();
+  var info = document.getElementById('loteInfo');
+  if(info) info.textContent = '';
+  var fileInput = document.getElementById('csvFile');
+  if(fileInput) fileInput.value = '';
+}
+
 function imprimirLetra(){
   intentoImprimir = true;
   marcarFaltantes();
@@ -255,6 +349,24 @@ document.addEventListener('DOMContentLoaded', function(){
   var imp = document.getElementById('importe');
   if(imp) imp.addEventListener('blur', normalizarImporte);
 
+  var csvInput = document.getElementById('csvFile');
+  if(csvInput) csvInput.addEventListener('change', function(e){
+    var file = e.target.files && e.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      loteFilas = parseCSV(String(ev.target.result));
+      var info = document.getElementById('loteInfo');
+      if(!loteFilas.length){
+        if(info) info.textContent = 'El CSV no tiene filas de datos.';
+        return;
+      }
+      if(info) info.textContent = loteFilas.length + ' letras cargadas de "' + file.name + '".';
+      cargarFilaLote(0);
+    };
+    reader.readAsText(file, 'UTF-8');
+  });
+
   cargar();
   if(!val('fgiro')) setVal('fgiro', hoyISO());
 
@@ -274,5 +386,11 @@ document.addEventListener('DOMContentLoaded', function(){
   window.addEventListener('afterprint', function(){
     document.getElementById('guias').checked = guiasAntesDeImprimir;
     pintar();
+    if(loteFilas.length && loteIndice < loteFilas.length - 1){
+      loteSiguiente();
+      mostrarAviso('Siguiente: Letra ' + (loteIndice + 1) + ' de ' + loteFilas.length + '. Carga la hoja y toca Imprimir.', 'ok');
+    }else if(loteFilas.length){
+      mostrarAviso('Lote terminado: ' + loteFilas.length + ' letras.', 'ok');
+    }
   });
 });
