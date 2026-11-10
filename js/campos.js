@@ -18,12 +18,13 @@
    ============================================================ */
 
 /* Default paper-to-frame offset, from the 300 dpi scan (estimated).
-   ox bumped +26.7mm (one cabecera column width) from 3.9 to 30.6 on
-   2026-11-09: a real print on A4-vs-100x210 mismatch showed "Fecha
-   de giro" landing one column over and the start of the amount-in-
-   words clipped off. Unverified estimate — needs confirming on a
-   blank-paper test print. */
-var CAL_DEF = { ox: 30.6, oy: 4.95 };
+   ox was bumped to 30.6 on 2026-11-09 as a blind workaround while the
+   printer was stuck on the generic Microsoft IPP Class Driver with no
+   100x210mm paper size available. Reverted back to 3.9 now that the
+   real Epson driver is installed — that bump was never a real
+   calibration, just a guess for a broken paper-size setup. Needs a
+   fresh blank-paper test with the correct paper size selected. */
+var CAL_DEF = { ox: 3.9, oy: 4.95 };
 
 var CAMPOS = [
 
