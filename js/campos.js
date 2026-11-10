@@ -17,8 +17,13 @@
    escriben a mano: los produce derivados() en app.js.
    ============================================================ */
 
-/* Default paper-to-frame offset, from the 300 dpi scan (estimated). */
-var CAL_DEF = { ox: 3.9, oy: 4.95 };
+/* Default paper-to-frame offset, from the 300 dpi scan (estimated).
+   ox bumped +26.7mm (one cabecera column width) from 3.9 to 30.6 on
+   2026-11-09: a real print on A4-vs-100x210 mismatch showed "Fecha
+   de giro" landing one column over and the start of the amount-in-
+   words clipped off. Unverified estimate — needs confirming on a
+   blank-paper test print. */
+var CAL_DEF = { ox: 30.6, oy: 4.95 };
 
 var CAMPOS = [
 
