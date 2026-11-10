@@ -32,7 +32,7 @@ html,body{margin:0;padding:0;}
    ------------------------------------------------------------ */
 .hoja{
   position:relative;
-  width:100mm; height:210mm;
+  width:100mm; height:320mm; /* 320 instead of 210 while BASE_OX workaround is active, see js/campos.js */
   overflow:hidden;
   background:#fff;
 }
