@@ -29,6 +29,7 @@
       </p>
 
       <p class="aviso" id="aviso"></p>
+      <p class="leyenda"><span class="req">*</span> obligatorio para imprimir</p>
 
       <div class="chk">
         <input type="checkbox" id="guias">
@@ -59,14 +60,14 @@
 
     <h2>Cabecera</h2>
     <div class="row">
-      <div><label for="numero">N&uacute;mero</label><input id="numero" placeholder="001" autocomplete="off"></div>
+      <div><label for="numero">N&uacute;mero <span class="req">*</span></label><input id="numero" placeholder="001" autocomplete="off"></div>
       <div><label for="ref">Ref. del girador</label><input id="ref" autocomplete="off"></div>
     </div>
     <label for="lugar">Lugar de giro</label>
     <input id="lugar" value="LIMA">
     <div class="row">
-      <div><label for="fgiro">Fecha de giro</label><input id="fgiro" type="date"></div>
-      <div><label for="fvenc">Vencimiento</label><input id="fvenc" type="date"></div>
+      <div><label for="fgiro">Fecha de giro <span class="req">*</span></label><input id="fgiro" type="date"></div>
+      <div><label for="fvenc">Vencimiento <span class="req">*</span></label><input id="fvenc" type="date"></div>
     </div>
     <div class="row">
       <div>
@@ -77,19 +78,20 @@
         </select>
       </div>
       <div>
-        <label for="importe">Importe</label>
+        <label for="importe">Importe <span class="req">*</span></label>
         <input id="importe" placeholder="1250.50" inputmode="decimal" autocomplete="off">
       </div>
     </div>
     <p class="letrasvivo" id="letrasvivo"></p>
 
     <h2>Beneficiario (a la orden de)</h2>
+    <label for="orden1">Nombre o raz&oacute;n social del tenedor <span class="req">*</span></label>
     <input id="orden1" placeholder="Nombre o raz&oacute;n social del tenedor" autocomplete="organization">
     <label for="orden2">Continuaci&oacute;n (si no entra en una l&iacute;nea)</label>
     <input id="orden2">
 
     <h2>Girado (quien debe pagar)</h2>
-    <label for="gdo_nom">Nombre / raz&oacute;n social</label><input id="gdo_nom">
+    <label for="gdo_nom">Nombre / raz&oacute;n social <span class="req">*</span></label><input id="gdo_nom">
     <label for="gdo_nom2">Continuaci&oacute;n</label><input id="gdo_nom2">
     <label for="gdo_dom">Domicilio</label><input id="gdo_dom">
     <div class="row">
@@ -117,7 +119,7 @@
     </div>
 
     <h2>Girador (quien emite) &mdash; datos fijos</h2>
-    <label for="gdr_nom">Nombre / raz&oacute;n social</label><input id="gdr_nom">
+    <label for="gdr_nom">Nombre / raz&oacute;n social <span class="req">*</span></label><input id="gdr_nom">
     <label for="gdr_nom2">Continuaci&oacute;n</label><input id="gdr_nom2">
     <label for="gdr_doi">D.O.I. / RUC</label><input id="gdr_doi" autocomplete="off">
 

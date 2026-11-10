@@ -105,6 +105,7 @@ function pintar(){
   });
 
   actualizarLetrasVivo();
+  marcarFaltantes();
   guardar();
 }
 
@@ -140,6 +141,7 @@ function siguienteNumero(s){
 }
 
 function limpiarVariables(){
+  intentoImprimir = false;
   var next = siguienteNumero(val('numero'));
   CAMPOS_VARIABLES.forEach(function(k){
     var e = document.getElementById(k);
@@ -178,16 +180,34 @@ function copiarCalibracion(){
   }
 }
 
+var CAMPOS_OBLIGATORIOS = [
+  {id:'numero',  label:'Número',                      falta:function(){ return !val('numero'); }},
+  {id:'fgiro',   label:'Fecha de giro',                falta:function(){ return !val('fgiro'); }},
+  {id:'fvenc',   label:'Vencimiento',                  falta:function(){ return !val('fvenc'); }},
+  {id:'importe', label:'Importe (número válido)',      falta:function(){ return isNaN(parseImporte(val('importe'))); }},
+  {id:'orden1',  label:'Beneficiario (a la orden de)', falta:function(){ return !val('orden1'); }},
+  {id:'gdo_nom', label:'Girado (quien debe pagar)',    falta:function(){ return !val('gdo_nom'); }},
+  {id:'gdr_nom', label:'Girador (quien emite)',        falta:function(){ return !val('gdr_nom'); }}
+];
+
 function camposObligatoriosFaltantes(){
   var falta = [];
-  if(!val('numero')) falta.push('Número');
-  if(!val('fgiro')) falta.push('Fecha de giro');
-  if(!val('fvenc')) falta.push('Vencimiento');
-  if(isNaN(parseImporte(val('importe')))) falta.push('Importe (número válido)');
-  if(!val('orden1')) falta.push('Beneficiario (a la orden de)');
-  if(!val('gdo_nom')) falta.push('Girado (quien debe pagar)');
-  if(!val('gdr_nom')) falta.push('Girador (quien emite)');
+  CAMPOS_OBLIGATORIOS.forEach(function(c){
+    if(c.falta()) falta.push(c.label);
+  });
   return falta;
+}
+
+/* Only paints the red "falta" highlight after the first print attempt,
+   so a blank new form doesn't look like it's full of errors. */
+var intentoImprimir = false;
+
+function marcarFaltantes(){
+  if(!intentoImprimir) return;
+  CAMPOS_OBLIGATORIOS.forEach(function(c){
+    var e = document.getElementById(c.id);
+    if(e) e.classList.toggle('falta', c.falta());
+  });
 }
 
 function mostrarAviso(msg, tipo){
@@ -198,6 +218,8 @@ function mostrarAviso(msg, tipo){
 }
 
 function imprimirLetra(){
+  intentoImprimir = true;
+  marcarFaltantes();
   var falta = camposObligatoriosFaltantes();
   if(falta.length){
     mostrarAviso('Falta: ' + falta.join(', ') + '.', 'warn');
